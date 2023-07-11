@@ -8,7 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Créer la base de données SQLite
     steps:
+      - name: Installer Java (dépendance)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          
       - name: Télécharger le dump psql des bases de données du Sénat
         run: wget https://data.senat.fr/data/dosleg/dosleg.zip -O dosleg.zip
         
@@ -25,7 +32,8 @@ jobs:
       - name: Convertir le dump psql en base SQLite
         run: |
           sed 's/public\.//' -i  dosleg.sql
-          ./pg2sqlite-1.0.1.jar -d dosleg.sql -o sqlite.db
+          chmod +x pg2sqlite-1.0.1.jar
+          java -jar pg2sqlite-1.0.1.jar -d dosleg.sql -o sqlite.db
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
