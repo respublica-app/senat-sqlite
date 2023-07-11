@@ -84,9 +84,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.compare_checksum.outputs.checksum }}
-          release_name: Release ${{ steps.compare_checksum.outputs.checksum }}
-          body: ${{ steps.compare_checksum.outputs.checksum }}
+          tag_name: ${{ steps.compare_checksums.outputs.checksum }}
+          release_name: Release ${{ steps.compare_checksums.outputs.checksum }}
+          body: ${{ steps.compare_checksums.outputs.checksum }}
           draft: false
           prerelease: false
           
