@@ -1,0 +1,35 @@
+name: Générer la base SQLite
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Télécharger le dump psql des bases de données du Sénat
+        run: wget https://data.senat.fr/data/dosleg/dosleg.zip -O dosleg.zip
+        
+      - name: Décompresser le dump psql
+        run: unzip dosleg.zip
+
+      - name: Télécharger postgres2sqlite
+        uses: robinraju/release-downloader@v1.8
+        with:
+          repository: caiiiycuk/postgresql-to-sqlite
+          tag: 1.0.1
+          fileName: pg2sqlite-1.0.1.jar 
+        
+      - name: Convertir le dump psql en base SQLite
+        run: |
+          sed 's/public\.//' -i  dosleg.sql
+          ./pg2sqlite-1.0.1.jar -d dosleg.sql -o sqlite.db
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: dosleg
+          path: sqlite.db
+
