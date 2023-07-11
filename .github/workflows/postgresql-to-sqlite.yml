@@ -59,6 +59,8 @@ jobs:
         run: |
           checksum=$(cat checksum.txt) 
           previous_checksum=$(cat previous_checksum.txt)
+          echo "Checksum de la base actuelle : ${checksum}"
+          echo "Checksum de la base en release : ${previous_checksum}"
           if [[ "${previous_checksum}" == "" ]]; then
             echo "Aucune release précédente n'existe. Téléchargement et téléversement de la nouvelle release."
             echo "checksum=${checksum}" >> $GITHUB_OUTPUT
