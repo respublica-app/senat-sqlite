@@ -57,6 +57,7 @@ jobs:
         id: compare_checksums
         continue-on-error: true
         run: |
+          sed -i 's/ sqlite\.db$//' checksum.txt
           checksum=$(cat checksum.txt) 
           previous_checksum=$(cat previous_checksum.txt)
           echo "Checksum de la base actuelle : ${checksum}"
