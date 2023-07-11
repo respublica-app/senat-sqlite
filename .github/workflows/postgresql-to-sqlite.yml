@@ -63,11 +63,13 @@ jobs:
           echo "Checksum de la base en release : ${previous_checksum}"
           if [[ "${previous_checksum}" == "" ]]; then
             echo "Aucune release précédente n'existe. Téléchargement et téléversement de la nouvelle release."
-            echo "checksum=${checksum}" >> $GITHUB_OUTPUT
+            echo "checksum=${checksum}" >> "$GITHUB_OUTPUT"
+            echo "checksum=${checksum}"
             exit 0
           elif [[ "${previous_checksum}" != "${checksum}" ]]; then
             echo "Les checksums sont différents. Téléchargement et téléversement de la nouvelle release."
-            echo "checksum=${checksum}" >> $GITHUB_OUTPUT
+            echo "checksum=${checksum}" >> "$GITHUB_OUTPUT"
+            echo "checksum=${checksum}"
             exit 0
           else
             echo "Les checksums sont identiques. Aucune action nécessaire."
