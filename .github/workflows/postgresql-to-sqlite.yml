@@ -66,12 +66,12 @@ jobs:
           if [[ "${previous_checksum}" == "" ]]; then
             echo "Aucune release précédente n'existe. Téléchargement et téléversement de la nouvelle release."
             echo "checksum=${checksum}" >> "$GITHUB_OUTPUT"
-            echo "checksum=${checksum}"
+            echo "checksum_short=${checksum:0:6}" >> "$GITHUB_OUTPUT"
             exit 0
           elif [[ "${previous_checksum}" != "${checksum}" ]]; then
             echo "Les checksums sont différents. Téléchargement et téléversement de la nouvelle release."
             echo "checksum=${checksum}" >> "$GITHUB_OUTPUT"
-            echo "checksum=${checksum}"
+            echo "checksum_short=${checksum:0:6}" >> "$GITHUB_OUTPUT"
             exit 0
           else
             echo "Les checksums sont identiques. Aucune action nécessaire."
@@ -86,7 +86,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.compare_checksums.outputs.checksum }}
-          release_name: Release ${{ steps.compare_checksums.outputs.checksum }}
+          release_name: Release ${{ steps.compare_checksums.outputs.checksum_short }}
           body: ${{ steps.compare_checksums.outputs.checksum }}
           draft: false
           prerelease: false
